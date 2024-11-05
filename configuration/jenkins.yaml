@@ -1,6 +1,3 @@
----
-# https://github.com/jenkinsci/configuration-as-code-plugin/tree/master/demos
-
 jenkins:
   nodes:
     - mode: "EXCLUSIVE"
