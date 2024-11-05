@@ -1,54 +1,70 @@
 jenkins:
   nodes:
-    - mode: "EXCLUSIVE"
-      name: "nebula-jenkins-agent1.local.mainnet.community"
-      remoteFS: "/jenkins"
-      retentionStrategy: "always"
-      permanent:
-        labelString: "internal snapshot-testing medium 4vcpu-8gb"
+    - permanent:
+        labelString: "linux medium snapshot-testing 4vcpu8gb"
+        mode: NORMAL
+        name: "nebula-jenkins-agent1.local.mainnet.community"
+        numExecutors: 4
+        remoteFS: "/home/jenkins-agent"
         launcher:
-          inbound:
-            webSocket: true
-            workDirSettings:
-              disabled: false
-              failIfWorkDirIsMissing: false
-              internalDir: "remoting"
-    - mode: "EXCLUSIVE"
-      name: "nebula-jenkins-agent2.local.mainnet.community"
-      remoteFS: "/jenkins"
-      retentionStrategy: "always"
-      permanent:
-        labelString: "internal snapshot-testing medium 4vcpu-8gb"
+          SSHLauncher:
+            host: "nebula-jenkins-agent1.local.mainnet.community"
+            port: 22
+            credentialsId: jenkins-agent-connection-ssh-key
+            launchTimeoutSeconds: 60
+            maxNumRetries: 3
+            retryWaitTime: 30
+            sshHostKeyVerificationStrategy:
+              manuallyTrustedKeyVerificationStrategy:
+                requireInitialManualTrust: false
+    - permanent:
+        labelString: "linux medium snapshot-testing 4vcpu8gb"
+        mode: NORMAL
+        name: "nebula-jenkins-agent2.local.mainnet.community"
+        numExecutors: 4
+        remoteFS: "/home/jenkins-agent"
         launcher:
-          inbound:
-            webSocket: true
-            workDirSettings:
-              disabled: false
-              failIfWorkDirIsMissing: false
-              internalDir: "remoting"
-    - mode: "EXCLUSIVE"
-      name: "nebula-jenkins-agent3.local.mainnet.community"
-      remoteFS: "/jenkins"
-      retentionStrategy: "always"
-      permanent:
-        labelString: "internal snapshot-testing medium 4vcpu-8gb"
+          SSHLauncher:
+            host: "nebula-jenkins-agent2.local.mainnet.community"
+            port: 22
+            credentialsId: jenkins-agent-connection-ssh-key
+            launchTimeoutSeconds: 60
+            maxNumRetries: 3
+            retryWaitTime: 30
+            sshHostKeyVerificationStrategy:
+              manuallyTrustedKeyVerificationStrategy:
+                requireInitialManualTrust: false
+    - permanent:
+        labelString: "linux medium snapshot-testing 4vcpu8gb"
+        mode: NORMAL
+        name: "nebula-jenkins-agent3.local.mainnet.community"
+        numExecutors: 4
+        remoteFS: "/home/jenkins-agent"
         launcher:
-          inbound:
-            webSocket: true
-            workDirSettings:
-              disabled: false
-              failIfWorkDirIsMissing: false
-              internalDir: "remoting"
-    - mode: "EXCLUSIVE"
-      name: "nebula-jenkins-agent4.local.mainnet.community"
-      remoteFS: "/jenkins"
-      retentionStrategy: "always"
-      permanent:
-        labelString: "internal snapshot-testing medium 4vcpu-8gb"
+          SSHLauncher:
+            host: "nebula-jenkins-agent3.local.mainnet.community"
+            port: 22
+            credentialsId: jenkins-agent-connection-ssh-key
+            launchTimeoutSeconds: 60
+            maxNumRetries: 3
+            retryWaitTime: 30
+            sshHostKeyVerificationStrategy:
+              manuallyTrustedKeyVerificationStrategy:
+                requireInitialManualTrust: false
+    - permanent:
+        labelString: "linux medium snapshot-testing 4vcpu8gb"
+        mode: NORMAL
+        name: "nebula-jenkins-agent4.local.mainnet.community"
+        numExecutors: 4
+        remoteFS: "/home/jenkins-agent"
         launcher:
-          inbound:
-            webSocket: true
-            workDirSettings:
-              disabled: false
-              failIfWorkDirIsMissing: false
-              internalDir: "remoting"
+          SSHLauncher:
+            host: "nebula-jenkins-agent3.local.mainnet.community"
+            port: 22
+            credentialsId: jenkins-agent-connection-ssh-key
+            launchTimeoutSeconds: 60
+            maxNumRetries: 3
+            retryWaitTime: 30
+            sshHostKeyVerificationStrategy:
+              manuallyTrustedKeyVerificationStrategy:
+                requireInitialManualTrust: false
