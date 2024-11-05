@@ -4,7 +4,7 @@ jenkins:
         labelString: "linux medium snapshot-testing 4vcpu8gb"
         mode: NORMAL
         name: "nebula-jenkins-agent1.local.mainnet.community"
-        numExecutors: 4
+        numExecutors: 1
         remoteFS: "/home/jenkins-agent"
         launcher:
           SSHLauncher:
@@ -21,7 +21,7 @@ jenkins:
         labelString: "linux medium snapshot-testing 4vcpu8gb"
         mode: NORMAL
         name: "nebula-jenkins-agent2.local.mainnet.community"
-        numExecutors: 4
+        numExecutors: 1
         remoteFS: "/home/jenkins-agent"
         launcher:
           SSHLauncher:
@@ -38,7 +38,7 @@ jenkins:
         labelString: "linux medium snapshot-testing 4vcpu8gb"
         mode: NORMAL
         name: "nebula-jenkins-agent3.local.mainnet.community"
-        numExecutors: 4
+        numExecutors: 1
         remoteFS: "/home/jenkins-agent"
         launcher:
           SSHLauncher:
@@ -55,7 +55,7 @@ jenkins:
         labelString: "linux medium snapshot-testing 4vcpu8gb"
         mode: NORMAL
         name: "nebula-jenkins-agent4.local.mainnet.community"
-        numExecutors: 4
+        numExecutors: 1
         remoteFS: "/home/jenkins-agent"
         launcher:
           SSHLauncher:

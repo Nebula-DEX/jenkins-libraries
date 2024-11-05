@@ -1,0 +1,56 @@
+import io.jenkins.plugins.casc.ConfigurationAsCode;
+import io.jenkins.plugins.casc.CasCGlobalConfig;
+import jenkins.model.GlobalConfiguration;
+// https://jenkins.n.mainnet.community/configuration-as-code/reference
+// https://jenkins.n.mainnet.community/configuration-as-code/schema
+pipeline {
+    agent {
+        label 'tiny'
+    }
+    options {
+        timestamps()
+        ansiColor('xterm')
+        disableConcurrentBuilds()
+        timeout(time: 10, unit: 'MINUTES')
+    }
+    stages {
+        stage('Apply Config') {
+            environment {
+                DIGITALOCEAN_TOKEN = credentials('digitalocean-token')
+            }
+            when {
+                anyOf {
+                    changeset "jcasc/**"
+                    triggeredBy 'UserIdCause'
+                }
+            }
+            steps {
+                script {
+                    configsUrls = [
+                        'https://raw.githubusercontent.com/Nebula-DEX/jenkins-libraries/refs/heads/main/configuration/jenkins.yaml',
+                    ]
+                    configUrl = configsUrls.join(',')
+                    // Cache in Jenkins RAW previews is refreshed every 5 minutes. We should wait to make sure the latest version is fetched
+                    sleep 330
+                    // https://github.com/jenkinsci/configuration-as-code-plugin/blob/master/plugin/src/main/java/io/jenkins/plugins/casc/ConfigurationAsCode.java#L199
+                    def config = GlobalConfiguration.all().get(CasCGlobalConfig.class)
+                    if (config != null) {
+                        if (config.getConfigurationPath() != configUrl) {
+                            config.setConfigurationPath(configUrl)
+                            config.save()
+                        }
+                    } else {
+                        error "Couldn't get a CaSC config! Probably you didn't install the plugin or need to set primar configuration manually in the configuration panel"
+                    }
+                    // https://stackoverflow.com/questions/54770969/jenkins-configuration-as-code-programmatically-reload-configuration-from-file
+                    ConfigurationAsCode.get().configure()
+                }
+            }
+        }
+    }
+    post {
+        always {
+            cleanWs()
+        }
+    }
+}
