@@ -1,0 +1,31 @@
+pipeline {
+    agent {
+        label 'tiny'
+    }
+    options {
+        timestamps()
+        ansiColor('xterm')
+        disableConcurrentBuilds()
+        timeout(time: 15, unit: 'MINUTES')
+    }
+    stages {
+        stage('Create jobs') {
+            steps {
+                jobDsl(
+                    removedViewAction: 'DELETE',
+                    removedJobAction: 'DELETE',
+                    targets: [
+                        'dsl/scripts/*.groovy'
+                    ].join("\n"),
+                    unstableOnDeprecation: true,
+                    sandbox: false,
+                )
+            }
+        }
+    }
+    post {
+        always {
+            cleanWs()
+        }
+    }
+}
