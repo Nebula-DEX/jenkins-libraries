@@ -14,7 +14,7 @@ def scmDefinition(args){
                         }
                         else {
                             url(args.repo)
-                            credentials(args.get('credentials', "nebula-dex-github"))
+                            credentials(args.get('credentials', "nebula-dex-github-ssh"))
                             if (args.branch) {
                                 refspec("+refs/heads/${args.branch}:refs/remotes/origin/${args.branch}")
                             }
