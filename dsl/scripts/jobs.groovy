@@ -215,10 +215,10 @@ def jobs = [
         useScmDefinition: false,
         env: [
             NET_NAME: 'nebula1',
-            CONFIG_PATH: 'https://raw.githubusercontent.com/Nebula-DEX/networks/refs/heads/main/nebula1/snapshot-testing.toml',
         ],
         parameters: snapshotParams(
-            NODE_LABEL: 'snapshot-testing'
+            NODE_LABEL: 'snapshot-testing',
+            CONFIG_PATH: 'https://raw.githubusercontent.com/Nebula-DEX/networks/refs/heads/main/nebula1/snapshot-testing.toml',
         ),
         daysToKeep: 4,
         definition: libDefinition('pipelineSnapshotTesting()'),
