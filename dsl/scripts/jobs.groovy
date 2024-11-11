@@ -90,11 +90,11 @@ def createCommonPipeline(args){
                 env(key.toUpperCase(), value)
             }
             env("GOROOT", "/usr/local/go")
-            env("GOPATH", "/home/jenkins/GOPATH")
-            env("GOCACHE", "/home/jenkins/GOCACHE")
+            env("GOPATH", "/home/jenkins-agent/GOPATH")
+            env("GOCACHE", "/home/jenkins-agent/GOCACHE")
             env("GO111MODULE", "on")
-            env("GOBIN", "/home/jenkins/GOPATH/bin")
-            env("PATH+EXTRA", "/home/jenkins/GOPATH/bin:/usr/local/go/bin:/home/jenkins/.local/bin:/jenkins/ubuntu/.pyenv/bin:/jenkins/ubuntu/.pyenv/shims")
+            env("GOBIN", "/home/jenkins-agent/GOPATH/bin")
+            env("PATH+EXTRA", "/home/jenkins-agent/GOPATH/bin:/usr/local/go/bin:/home/jenkins-agent/.local/bin:/jenkins/ubuntu/.pyenv/bin:/jenkins/ubuntu/.pyenv/shims")
         }
 
         if (args.get('useScmDefinition', true)) {
