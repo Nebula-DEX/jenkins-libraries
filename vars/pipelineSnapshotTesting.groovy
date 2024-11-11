@@ -49,7 +49,7 @@ void call(Map config=[:]) {
                 agentUtils.commonCleanup()
                 // init global variables
                 // monitoringDashboardURL = jenkinsutils.getMonitoringDashboardURL([job: "snapshot-${networkName}"])
-                // jenkinsAgentIP = agent.getPublicIP()
+                jenkinsAgentIP = agent.getPublicIP()
                 // echo "Jenkins Agent IP: ${jenkinsAgentIP}"
                 // echo "Monitoring Dahsboard: ${monitoringDashboardURL}"
                 // set job Title and Description
