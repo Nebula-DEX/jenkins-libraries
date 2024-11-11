@@ -207,7 +207,7 @@ def jobs = [
         check: 'Jenkins Configuration as Code pipeline',
         repo: 'jenkins-libraries',
         description: header('This job is used to auto apply changes to jenkins instance configuration'),
-        jenkinsfile: 'jcasc/Jenkinsfile',
+        jenkinsfile: 'configuration/Jenkinsfile',
         branch: 'main',
         disableConcurrentBuilds: true,
     ],
