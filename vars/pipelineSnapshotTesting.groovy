@@ -86,9 +86,9 @@ void call(Map config=[:]) {
         timeout(time: pipelineTimeout + 5, unit: 'MINUTES') {
             stage('Clone snapshot-testing') {
                 gitClone([
-                    url: 'git@github.com:vegaprotocol/snapshot-testing.git',
+                    url: 'git@github.com:nebula-dex/snapshot-testing.git',
                     branch: snapshotTestingBranch,
-                    credentialsId: 'vega-ci-bot',
+                    credentialsId: 'nebula-dex-github-ssh',
                     directory: 'snapshot-testing'
                 ])
             }
