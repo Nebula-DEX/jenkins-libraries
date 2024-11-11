@@ -115,7 +115,9 @@ def createCommonPipeline(args){
                     abortPrevious(args.abortPrevious ?: false)
                 }
             }
+
             githubProjectUrl('https://github.com/' + args.repoName)
+            
             pipelineTriggers {
                 triggers {
                     if (args.get('useScmDefinition', true)) {
