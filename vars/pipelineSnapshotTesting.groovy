@@ -55,7 +55,7 @@ void call(Map config=[:]) {
                 // set job Title and Description
                 String prefixDescription = jenkinsUtils.getNicePrefixForJobDescription()
                 currentBuild.displayName = "#${currentBuild.id} ${prefixDescription} [${env.NODE_NAME.take(12)}]"
-                currentBuild.description = "Monitoring: ${monitoringDashboardURL}, Jenkins Agent IP: ${jenkinsAgentIP} [${env.NODE_NAME}]"
+                // currentBuild.description = "Monitoring: ${monitoringDashboardURL}, Jenkins Agent IP: ${jenkinsAgentIP} [${env.NODE_NAME}]"
                 // Setup grafana-agent
                 // grafanaAgent.configure("snapshot", [
                 //     JENKINS_JOB_NAME: "snapshot-${networkName}",
@@ -68,7 +68,7 @@ void call(Map config=[:]) {
             // Print Info only, do not execute anythig
             echo "Jenkins Agent IP: ${jenkinsAgentIP}"
             echo "Jenkins Agent name: ${env.NODE_NAME}"
-            echo "Monitoring Dahsboard: ${monitoringDashboardURL}"
+            // echo "Monitoring Dahsboard: ${monitoringDashboardURL}"
             echo "Core stats: http://${jenkinsAgentIP}:3003/statistics"
             echo "GraphQL: http://${jenkinsAgentIP}:3008/graphql/"
             echo "Epoch: http://${jenkinsAgentIP}:3008/api/v2/epoch"
