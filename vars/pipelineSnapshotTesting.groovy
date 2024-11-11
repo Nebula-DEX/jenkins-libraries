@@ -189,6 +189,7 @@ void call(Map config=[:]) {
             script {
                 if (currentBuild.currentResult.toLowerCase() == 'success' && shouldSkipNotificationMessage) {
                     println("Not need to send notification")
+                    return
                 }
 
                 String result = currentBuild.currentResult.toLowerCase()
