@@ -202,7 +202,7 @@ void call(Map config=[:]) {
                     '''
                 }
 
-                description += '\n\n[Vegavisor nodes logs](' + env.BUILD_URL + 'artifact/work-dir/logs/)'
+                description += '\n\n[Vegavisor node logs](' + env.BUILD_URL + 'artifact/work-dir/logs/)'
                 description += '\n[Pipeline logs](' + env.BUILD_URL + 'console)'
 
                 withCredentials([string(credentialsId: 'nebula-discord-webhook-url', variable: 'DISCORD_WEBHOOK_URL')]) {
