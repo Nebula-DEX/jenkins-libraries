@@ -150,6 +150,41 @@ def libDefinition(methodName) {
     }
 }
 
+def snapshotParams(args=[:]) {
+    return {
+        stringParam {
+            name('CONFIG_PATH')
+            defaultValue(args.get('CONFIG_PATH',''))
+            description('Path to the config file')
+            trim(true)
+        }
+        stringParam {
+            name('TIMEOUT')
+            defaultValue(args.get('TIMEOUT','17'))
+            description('Number of minutes after which the node will stop')
+            trim(true)
+        }
+        stringParam {
+            name('JENKINS_SHARED_LIB_BRANCH')
+            defaultValue(args.get('JENKINS_SHARED_LIB_BRANCH', 'main'))
+            description('Branch of jenkins-shared-library from which pipeline should be run')
+            trim(true)
+        }
+        stringParam {
+            name('NODE_LABEL')
+            defaultValue(args.get('NODE_LABEL','snapshot-testing'))
+            description('Jenkins label for running pipeline (empty means any node)')
+            trim(true)
+        }
+        stringParam {
+            name('SNAPSHOT_TESTING_BRANCH')
+            defaultValue(args.get('SNAPSHOT_TESTING_BRANCH', 'main'))
+            description('Branch for the devopstools')
+            trim(true)
+        }
+    }
+}
+
 def jobs = [
     // DSL Job - the one that manages this file
     [
@@ -171,6 +206,23 @@ def jobs = [
         description: header('This job is used to auto apply changes to jenkins instance configuration'),
         jenkinsfile: 'jcasc/Jenkinsfile',
         branch: 'main',
+        disableConcurrentBuilds: true,
+    ],
+    [
+        name: 'private/snapshots/Mainnet',
+        // disabled: true,
+        numToKeep: 500,
+        useScmDefinition: false,
+        env: [
+            NET_NAME: 'nebula1',
+            CONFIG_PATH: 'https://raw.githubusercontent.com/Nebula-DEX/networks/refs/heads/main/nebula1/snapshot-testing.toml',
+        ],
+        parameters: snapshotParams(
+            NODE_LABEL: 'snapshot-testing'
+        ),
+        daysToKeep: 4,
+        definition: libDefinition('pipelineSnapshotTesting()'),
+        cron: "H/20 * * * *",
         disableConcurrentBuilds: true,
     ],
 ]

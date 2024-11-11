@@ -7,6 +7,10 @@ def dirs = [
         id: 'private/infra',
         display: '[Infra automations]',
     ],
+    [
+        id: 'private/snapshots',
+        display: '[Snapshot testing]',
+    ],
     // [
     //     id: 'common',
     //     display: 'Common',

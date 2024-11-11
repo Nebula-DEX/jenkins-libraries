@@ -68,3 +68,14 @@ jenkins:
             sshHostKeyVerificationStrategy:
               manuallyTrustedKeyVerificationStrategy:
                 requireInitialManualTrust: false
+
+unclassified:
+  globalLibraries:
+    libraries:
+      - name: "jenkins-libraries"
+        retriever:
+          clone: true
+          modernSCM:
+            scm:
+              git:
+                remote: "https://github.com/Nebula-DEX/jenkins-libraries.git"
