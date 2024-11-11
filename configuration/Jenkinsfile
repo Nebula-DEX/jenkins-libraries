@@ -20,7 +20,7 @@ pipeline {
             }
             when {
                 anyOf {
-                    changeset "jcasc/**"
+                    changeset "configuration/**"
                     triggeredBy 'UserIdCause'
                 }
             }
