@@ -186,15 +186,11 @@ void call(Map config=[:]) {
         }
 
         stage('Send notifications') {
-            environment {
-                DISCORD_WEBHOOK_URL = credentials('nebula-discord-webhook-url')
-            }
-
-            when {
-                currentBuild.currentResult.toLowerCase() != 'success' && !shouldSkipNotificationMessage
-            }
-
             script {
+                if (currentBuild.currentResult.toLowerCase() == 'success' && shouldSkipNotificationMessage) {
+                    println("Not need to send notification")
+                }
+
                 String result = currentBuild.currentResult.toLowerCase()
 
                 String description = "No extra logs has been reported. See the pipeline logs for details"
@@ -206,13 +202,15 @@ void call(Map config=[:]) {
                     '''
                 }
 
-                discordSend webhookURL: env.DISCORD_WEBHOOK_URL,
-                            title: 'Snapshot testing(' + env.NET_NAME + ') #' + env.BUILD_NUMBER,
-                            result: currentBuild.currentResult,
-                            link: env.BUILD_URL,
-                            description: description + "\n\u2060", // word joiner character forces a blank line
-                            enableArtifactsList: true,
-                            showChangeset: false
+                withCredentials([string(credentialsId: 'nebula-discord-webhook-url', variable: 'DISCORD_WEBHOOK_URL')]) {
+                    discordSend webhookURL: env.DISCORD_WEBHOOK_URL,
+                                title: 'Snapshot testing(' + env.NET_NAME + ') #' + env.BUILD_NUMBER,
+                                result: currentBuild.currentResult,
+                                link: env.BUILD_URL,
+                                description: description + "\n\u2060", // word joiner character forces a blank line
+                                enableArtifactsList: true,
+                                showChangeset: false
+                }
             }
         }
     }
