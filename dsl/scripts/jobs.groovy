@@ -60,8 +60,8 @@ def standardDescription() {
 }
 
 def createCommonPipeline(args){
-    args.repoName = "nebula-dex/${args.repo}"
-    args.repo = "git@github.com:nebula-dex/${args.repo}.git"
+    args.repoName = "Nebula-DEX/${args.repo}"
+    args.repo = "git@github.com:Nebula-DEX/${args.repo}.git"
 
     def des = args.get('description', '')
     des += "${des ? '<br/>' : ''} ${standardDescription()}"
@@ -117,7 +117,7 @@ def createCommonPipeline(args){
             }
 
             githubProjectUrl('https://github.com/' + args.repoName)
-            
+
             pipelineTriggers {
                 triggers {
                     if (args.get('useScmDefinition', true)) {
