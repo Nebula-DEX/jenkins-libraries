@@ -15,9 +15,6 @@ pipeline {
     }
     stages {
         stage('Apply Config') {
-            environment {
-                DIGITALOCEAN_TOKEN = credentials('digitalocean-token')
-            }
             when {
                 anyOf {
                     changeset "configuration/**"
