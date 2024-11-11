@@ -49,4 +49,3 @@ def commonCleanup() {
   localRemoveBinary('vegacapsule')
   localRemoveBinary('blockexplorer')
 }
-
