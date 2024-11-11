@@ -1,4 +1,6 @@
 
+import org.jenkinsci.plugins.workflow.support.steps.build.RunWrapper
+
 Map<String, String> getJobInfo() {
     //
     // Find build not triggered by upstream build
