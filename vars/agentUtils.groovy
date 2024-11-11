@@ -19,7 +19,7 @@ void localRemoveBinary(String binName) {
   print("Removing all existing binaries of " + binName)
   while (true) {
     try {
-      binaryPath = shellOutput("which " + binName)
+      binaryPath = commonUtils.shellOutput("which " + binName)
       if (binaryPath == "") {
         return
       } else {
