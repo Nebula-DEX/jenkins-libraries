@@ -5,7 +5,7 @@ import jenkins.model.GlobalConfiguration;
 // https://jenkins.n.mainnet.community/configuration-as-code/schema
 pipeline {
     agent {
-        label 'tiny'
+        label 'linux'
     }
     options {
         timestamps()
