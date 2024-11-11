@@ -46,21 +46,21 @@ void call(Map config=[:]) {
 
             script {
                 // initial cleanup
-                vegautils.commonCleanup()
+                agentUtils.commonCleanup()
                 // init global variables
-                monitoringDashboardURL = jenkinsutils.getMonitoringDashboardURL([job: "snapshot-${networkName}"])
-                jenkinsAgentIP = agent.getPublicIP()
-                echo "Jenkins Agent IP: ${jenkinsAgentIP}"
-                echo "Monitoring Dahsboard: ${monitoringDashboardURL}"
+                // monitoringDashboardURL = jenkinsutils.getMonitoringDashboardURL([job: "snapshot-${networkName}"])
+                // jenkinsAgentIP = agent.getPublicIP()
+                // echo "Jenkins Agent IP: ${jenkinsAgentIP}"
+                // echo "Monitoring Dahsboard: ${monitoringDashboardURL}"
                 // set job Title and Description
-                String prefixDescription = jenkinsutils.getNicePrefixForJobDescription()
+                String prefixDescription = jenkinsUtils.getNicePrefixForJobDescription()
                 currentBuild.displayName = "#${currentBuild.id} ${prefixDescription} [${env.NODE_NAME.take(12)}]"
                 currentBuild.description = "Monitoring: ${monitoringDashboardURL}, Jenkins Agent IP: ${jenkinsAgentIP} [${env.NODE_NAME}]"
                 // Setup grafana-agent
-                grafanaAgent.configure("snapshot", [
-                    JENKINS_JOB_NAME: "snapshot-${networkName}",
-                ])
-                grafanaAgent.restart()
+                // grafanaAgent.configure("snapshot", [
+                //     JENKINS_JOB_NAME: "snapshot-${networkName}",
+                // ])
+                // grafanaAgent.restart()
             }
         }
 
@@ -105,8 +105,8 @@ void call(Map config=[:]) {
                     ' --environment ' + networkName,
                     '--work-dir ./work-dir'
                 ]
-                if (config.containsKey('configPath')) {
-                    snapshotTestingArgs << '--config-path ' + config.configPath
+                if (configPath != "") {
+                    snapshotTestingArgs << '--config-path ' + configPath
                 }
 
                 try {
@@ -154,7 +154,7 @@ void call(Map config=[:]) {
                         String snapshotsTo = results["snapshot-max"] ?: 'UNKNOWN'
                         int buildNo = currentBuild.number as Integer
 
-                        archiveArtifactsToS3(buildNo, networkName, './work-dir', snapshotsFrom, snapshotsTo)
+                        // archiveArtifactsToS3(buildNo, networkName, './work-dir', snapshotsFrom, snapshotsTo)
                     } catch(e) {
                         print(e)
                         currentBuild.result = 'FAILURE'
@@ -189,44 +189,43 @@ void call(Map config=[:]) {
                 ].join(','),
             )
         }
-
     }
 }
 
-void archiveArtifactsToS3(int buildNo, String envName, String dirName, String minSnapshot, String maxSnapshot) {
-    // We are not interested in archiving non mainnet chain data
-    if (envName != "nebula1") {
-        return
-    }
+// void archiveArtifactsToS3(int buildNo, String envName, String dirName, String minSnapshot, String maxSnapshot) {
+//     // We are not interested in archiving non mainnet chain data
+//     if (envName != "nebula1") {
+//         return
+//     }
 
-    // We do not need to archive all artifacts. People can replay if needed.
-    if (buildNo % 4 != 0) {
-        return
-    }
+//     // We do not need to archive all artifacts. People can replay if needed.
+//     if (buildNo % 4 != 0) {
+//         return
+//     }
 
-    Date date = new Date()
-    SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss")
-    String dateString = sdf.format(date)
+//     Date date = new Date()
+//     SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss")
+//     String dateString = sdf.format(date)
 
-    String snapshotName = dateString + '-' + minSnapshot + '-' + maxSnapshot + '.tar.gz'
+//     String snapshotName = dateString + '-' + minSnapshot + '-' + maxSnapshot + '.tar.gz'
 
-    sh '''tar \
-        -I 'gzip -9' \
-        --exclude ''' + dirName + '''/vega.sock \
-        --exclude ''' + dirName + '''/bins \
-        --exclude ''' + dirName + '''/vega_home/state/data-node/networkhistory/store/ipfs/blocks \
-        -cvf  ''' + snapshotName + ''' \
-    ./''' + dirName
+//     sh '''tar \
+//         -I 'gzip -9' \
+//         --exclude ''' + dirName + '''/vega.sock \
+//         --exclude ''' + dirName + '''/bins \
+//         --exclude ''' + dirName + '''/vega_home/state/data-node/networkhistory/store/ipfs/blocks \
+//         -cvf  ''' + snapshotName + ''' \
+//     ./''' + dirName
 
-     withCredentials([
-        usernamePassword(
-            credentialsId:  envName.toLowerCase() + '-snapshot-history-aws-key', 
-            passwordVariable: 'AWS_SECRET_ACCESS_KEY', 
-            usernameVariable: 'AWS_ACCESS_KEY_ID'
-        ),
-        string(credentialsId: envName.toLowerCase() + '-snapshot-history-bucket-name', variable: 'BUCKET_NAME')
-    ]) {
-        sh 'GOBIN="$(pwd)" go install github.com/opendevsecops/go-s3cp@8b07da75e3cd053a4543423a18605358e696fefe'
-        sh '''AWS_REGION=us-east-1 ./go-s3cp --from ./''' + snapshotName + ''' --to s3://''' + BUCKET_NAME + '''/''' + snapshotName
-    }
-}
+//      withCredentials([
+//         usernamePassword(
+//             credentialsId:  envName.toLowerCase() + '-snapshot-history-aws-key', 
+//             passwordVariable: 'AWS_SECRET_ACCESS_KEY', 
+//             usernameVariable: 'AWS_ACCESS_KEY_ID'
+//         ),
+//         string(credentialsId: envName.toLowerCase() + '-snapshot-history-bucket-name', variable: 'BUCKET_NAME')
+//     ]) {
+//         sh 'GOBIN="$(pwd)" go install github.com/opendevsecops/go-s3cp@8b07da75e3cd053a4543423a18605358e696fefe'
+//         sh '''AWS_REGION=us-east-1 ./go-s3cp --from ./''' + snapshotName + ''' --to s3://''' + BUCKET_NAME + '''/''' + snapshotName
+//     }
+// }
