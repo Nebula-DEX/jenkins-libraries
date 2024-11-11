@@ -202,13 +202,16 @@ void call(Map config=[:]) {
                     '''
                 }
 
+                description += '\n\n[Vegavisor nodes logs](' + env.BUILD_URL + 'artifact/work-dir/logs/)'
+                description += '\n[Pipeline logs](' + env.BUILD_URL + 'console)'
+
                 withCredentials([string(credentialsId: 'nebula-discord-webhook-url', variable: 'DISCORD_WEBHOOK_URL')]) {
                     discordSend webhookURL: env.DISCORD_WEBHOOK_URL,
                                 title: 'Snapshot testing(' + env.NET_NAME + ') #' + env.BUILD_NUMBER,
                                 result: currentBuild.currentResult,
                                 link: env.BUILD_URL,
                                 description: description + "\n\u2060", // word joiner character forces a blank line
-                                enableArtifactsList: true,
+                                enableArtifactsList: false,
                                 showChangeset: false
                 }
             }
