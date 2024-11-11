@@ -165,8 +165,8 @@ def snapshotParams(args=[:]) {
             trim(true)
         }
         stringParam {
-            name('JENKINS_SHARED_LIB_BRANCH')
-            defaultValue(args.get('JENKINS_SHARED_LIB_BRANCH', 'main'))
+            name('JENKINS_LIB_BRANCH')
+            defaultValue(args.get('JENKINS_LIB_BRANCH', 'main'))
             description('Branch of jenkins-shared-library from which pipeline should be run')
             trim(true)
         }
