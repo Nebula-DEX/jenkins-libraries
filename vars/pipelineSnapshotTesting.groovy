@@ -85,7 +85,7 @@ void call(Map config=[:]) {
 
 
         // Give extra 5 minutes for setup
-        timeout(time: pipelineTimeout + 5, unit: 'MINUTES') {
+        timeout(time: pipelineTimeout + 10, unit: 'MINUTES') {
             stage('Clone snapshot-testing') {
                 gitClone([
                     url: 'git@github.com:nebula-dex/snapshot-testing.git',
