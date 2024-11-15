@@ -211,6 +211,16 @@ def jobs = [
         branch: 'main',
         disableConcurrentBuilds: true,
     ],
+    // Jenkins Configuration As Code
+    [
+        name: 'private/maintenance/Frontend GEO IP database update',
+        numToKeep: 50,
+        description: header('This job is used to auto apply changes to jenkins instance configuration'),
+        definition: libDefinition('pipelineUpdateGeoIPDatabase()'),
+        branch: 'main',
+        disableConcurrentBuilds: true,
+        cron: "0 0 * * *",
+    ],
     [
         name: 'private/snapshots/Mainnet',
         // disabled: true,
@@ -223,7 +233,6 @@ def jobs = [
             NODE_LABEL: 'snapshot-testing',
             CONFIG_PATH: 'https://raw.githubusercontent.com/Nebula-DEX/networks/refs/heads/main/nebula1/snapshot-testing.toml',
         ),
-        daysToKeep: 4,
         definition: libDefinition('pipelineSnapshotTesting()'),
         cron: "H/30 * * * *",
         disableConcurrentBuilds: true,
