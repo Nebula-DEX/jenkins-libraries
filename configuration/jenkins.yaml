@@ -59,7 +59,7 @@ jenkins:
         remoteFS: "/home/jenkins-agent"
         launcher:
           SSHLauncher:
-            host: "nebula-jenkins-agent3.local.mainnet.community"
+            host: "nebula-jenkins-agent4.local.mainnet.community"
             port: 22
             credentialsId: jenkins-agent-connection-ssh-key
             launchTimeoutSeconds: 60
