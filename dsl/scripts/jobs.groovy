@@ -214,10 +214,10 @@ def jobs = [
     // Jenkins Configuration As Code
     [
         name: 'private/maintenance/Frontend GEO IP database update',
+        useScmDefinition: false,
         numToKeep: 50,
         description: header('This job is used to auto apply changes to jenkins instance configuration'),
         definition: libDefinition('pipelineUpdateGeoIPDatabase()'),
-        branch: 'main',
         disableConcurrentBuilds: true,
         cron: "0 0 * * *",
     ],

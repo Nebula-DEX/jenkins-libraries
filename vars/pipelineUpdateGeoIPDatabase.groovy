@@ -4,7 +4,7 @@ pipeline {
     agent any
     
     stages {
-        stage('Cleanup') {
+        stage('Init') {
             steps {
                 cleanWs()
                 script {
@@ -61,7 +61,7 @@ pipeline {
                 script {
                 if (currentBuild.currentResult.toLowerCase() == 'success') {
                     println("Not need to send notification")
-                    return
+                    // return
                 }
 
                 String description = "Pipeline to update the GEO IP database everyday at midnight"
@@ -74,6 +74,15 @@ pipeline {
                                 description: description + "\n\u2060", // word joiner character forces a blank line
                                 enableArtifactsList: false,
                                 showChangeset: false
+                }
+            }
+        }
+
+        stage('Cleanup') {
+            steps {
+                cleanWs()
+                script {
+                    agentUtils.commonCleanup()
                 }
             }
         }
