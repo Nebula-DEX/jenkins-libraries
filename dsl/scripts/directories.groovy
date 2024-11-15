@@ -11,6 +11,10 @@ def dirs = [
         id: 'private/snapshots',
         display: '[Snapshot testing]',
     ],
+    [
+        id: 'private/maintenance',
+        display: '[Maintenance Jobs]'
+    ],
     // [
     //     id: 'common',
     //     display: 'Common',
