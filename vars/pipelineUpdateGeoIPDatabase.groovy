@@ -14,8 +14,7 @@ pipeline {
         }
         
         stage('Download maxmind country db') {
-            steps {
-                
+            steps {                
                 withCredentials([string(credentialsId: 'maxmind-api-basic-auth', variable: 'MAXMIND_API_BASIC_AUTH')]) {
                     sh '''curl -L \
                         -u "''' + MAXMIND_API_BASIC_AUTH + '''" \
@@ -59,21 +58,22 @@ pipeline {
         stage('Send notifications') {
             steps {
                 script {
-                if (currentBuild.currentResult.toLowerCase() == 'success') {
-                    println("Not need to send notification")
-                    // return
-                }
+                    if (currentBuild.currentResult.toLowerCase() == 'success') {
+                        println("Not need to send notification")
+                        // return
+                    }
 
-                String description = "Pipeline to update the GEO IP database everyday at midnight"
-                description += '\n[Pipeline logs](' + env.BUILD_URL + 'console)'
-                withCredentials([string(credentialsId: 'nebula-discord-webhook-url', variable: 'DISCORD_WEBHOOK_URL')]) {
-                    discordSend webhookURL: env.DISCORD_WEBHOOK_URL,
-                                title: 'Geo IP db update #' + env.BUILD_NUMBER,
-                                result: currentBuild.currentResult,
-                                link: env.BUILD_URL,
-                                description: description + "\n\u2060", // word joiner character forces a blank line
-                                enableArtifactsList: false,
-                                showChangeset: false
+                    String description = "Pipeline to update the GEO IP database everyday at midnight"
+                    description += '\n[Pipeline logs](' + env.BUILD_URL + 'console)'
+                    withCredentials([string(credentialsId: 'nebula-discord-webhook-url', variable: 'DISCORD_WEBHOOK_URL')]) {
+                        discordSend webhookURL: env.DISCORD_WEBHOOK_URL,
+                                    title: 'Geo IP db update #' + env.BUILD_NUMBER,
+                                    result: currentBuild.currentResult,
+                                    link: env.BUILD_URL,
+                                    description: description + "\n\u2060", // word joiner character forces a blank line
+                                    enableArtifactsList: false,
+                                    showChangeset: false
+                    }
                 }
             }
         }
