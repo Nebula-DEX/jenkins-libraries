@@ -61,7 +61,7 @@ void call() {
                     script {
                         if (currentBuild.currentResult.toLowerCase() == 'success') {
                             println("Not need to send notification")
-                            // return
+                            return
                         }
 
                         String description = "Pipeline to update the GEO IP database everyday at midnight"
