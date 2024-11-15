@@ -219,11 +219,9 @@ void call(Map config=[:]) {
         }
 
         stage('Cleanup') {
-            steps {
-                cleanWs()
-                script {
-                    agentUtils.commonCleanup()
-                }
+            cleanWs()
+            script {
+                agentUtils.commonCleanup()
             }
         }
     }
