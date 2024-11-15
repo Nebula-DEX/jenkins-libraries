@@ -216,8 +216,23 @@ def jobs = [
         name: 'private/maintenance/Frontend GEO IP database update',
         useScmDefinition: false,
         numToKeep: 50,
-        description: header('This job is used to auto apply changes to jenkins instance configuration'),
+        description: header('This job updates the Marmind GEO IP database on the frontend servers'),
         definition: libDefinition('pipelineUpdateGeoIPDatabase()'),
+        parameters: {
+            stringParam {
+                name('SERVERS')
+                defaultValue("frontend.neb.exchange")
+                description('Coma-separated list of servers to upload database to. The server must have installed caddy and keep configuration under /etc/caddy/')
+                trim(true)
+            }
+
+            stringParam {
+                name('JENKINS_LIB_BRANCH')
+                defaultValue('main')
+                description('Branch of jenkins-shared-library from which pipeline should be run')
+                trim(true)
+            }
+        },
         disableConcurrentBuilds: true,
         cron: "0 0 * * *",
     ],
