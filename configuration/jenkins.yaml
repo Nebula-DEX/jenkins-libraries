@@ -7,7 +7,7 @@ jenkins:
         numExecutors: 1
         remoteFS: "/home/jenkins-agent"
         launcher:
-          SSHLauncher:
+          ssh:
             host: "nebula-jenkins-agent1.local.mainnet.community"
             port: 22
             credentialsId: jenkins-agent-connection-ssh-key
@@ -24,7 +24,7 @@ jenkins:
         numExecutors: 1
         remoteFS: "/home/jenkins-agent"
         launcher:
-          SSHLauncher:
+          ssh:
             host: "nebula-jenkins-agent2.local.mainnet.community"
             port: 22
             credentialsId: jenkins-agent-connection-ssh-key
@@ -41,7 +41,7 @@ jenkins:
         numExecutors: 1
         remoteFS: "/home/jenkins-agent"
         launcher:
-          SSHLauncher:
+          ssh:
             host: "nebula-jenkins-agent3.local.mainnet.community"
             port: 22
             credentialsId: jenkins-agent-connection-ssh-key
@@ -58,7 +58,7 @@ jenkins:
         numExecutors: 1
         remoteFS: "/home/jenkins-agent"
         launcher:
-          SSHLauncher:
+          ssh:
             host: "nebula-jenkins-agent4.local.mainnet.community"
             port: 22
             credentialsId: jenkins-agent-connection-ssh-key
@@ -72,10 +72,11 @@ jenkins:
 unclassified:
   globalLibraries:
     libraries:
-      - name: "jenkins-libraries"
-        retriever:
-          clone: true
-          modernSCM:
-            scm:
-              git:
-                remote: "https://github.com/Nebula-DEX/jenkins-libraries.git"
+    - name: "jenkins-libraries"
+      retriever:
+        modernSCM:
+          libraryPath: "."
+          scm:
+            git:
+              id: "d51770d5-bc1b-45f9-a7b4-286df14a735c"
+              remote: "https://github.com/Nebula-DEX/jenkins-libraries.git"
